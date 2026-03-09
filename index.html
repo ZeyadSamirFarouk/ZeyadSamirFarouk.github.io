@@ -7,16 +7,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Cairo:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* تعريف المتغيرات (الألوان بتتغير أوتوماتيك حسب الوضع) */
         :root {
-            /* الألوان الأساسية اللي اخترتها (ثابتة) */
             --c-dark-red: #82142D;
             --c-bright-red: #D32746;
             --c-pink: #EC5D82;
             --c-light-pink: #F4A3BE;
             --c-light-blue: #CDEEF2;
 
-            /* ألوان الوضع النهاري (Light Mode) */
             --text-dark: #111111;
             --text-gray: #555555;
             --bg-light: #f9f9f9;
@@ -24,7 +21,6 @@
             --card-shadow: rgba(0,0,0,0.05);
         }
 
-        /* ألوان الوضع الليلي (Dark Mode) */
         body.dark-mode {
             --text-dark: #f9f9f9;
             --text-gray: #cccccc;
@@ -36,15 +32,39 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         body { background-color: var(--bg-light); color: var(--text-dark); overflow-x: hidden; transition: background-color 0.5s, color 0.5s; }
 
-        /* زينة رمضان (Ramadan Decorations) */
-        .ramadan-decorations { position: fixed; top: 0; left: 0; width: 100%; display: flex; justify-content: space-around; pointer-events: none; z-index: 10001; }
-        .ornament { display: flex; flex-direction: column; align-items: center; transform-origin: top center; animation: swing ease-in-out infinite alternate; }
-        .string { width: 2px; background: linear-gradient(to bottom, #d4af37, #f9d71c); box-shadow: 0 0 5px #f9d71c; }
-        .icon-glow { color: #f9d71c; font-size: 1.8rem; text-shadow: 0 0 10px #d4af37, 0 0 20px #f9d71c, 0 0 30px #fff; margin-top: -3px; }
+        /* =========================================
+           ستارة رمضان الواقعية (Realistic Light Curtain) 
+           ========================================= */
+        .light-curtain { position: fixed; top: -10px; left: 0; width: 100%; display: flex; justify-content: space-evenly; z-index: 10001; pointer-events: none; }
         
-        @keyframes swing {
-            0% { transform: rotate(8deg); }
-            100% { transform: rotate(-8deg); }
+        .drop { position: relative; display: flex; flex-direction: column; align-items: center; transform-origin: top center; animation: gentle-swing 4s ease-in-out infinite alternate; }
+        
+        /* السلك الشفاف */
+        .wire { position: absolute; top: 0; width: 1.5px; height: 100%; background: rgba(255, 255, 255, 0.3); box-shadow: 0 0 4px rgba(255, 221, 136, 0.4); }
+        
+        /* اللمبات الصغيرة على السلك */
+        .led { position: absolute; width: 3px; height: 3px; background-color: #fff; border-radius: 50%; box-shadow: 0 0 6px 2px #fff, 0 0 12px 4px #ffcc00; }
+        
+        /* الأشكال المضيئة (نجمة أو هلال) */
+        .shape { position: absolute; bottom: -30px; width: 50px; height: 50px; filter: drop-shadow(0 0 4px #fff) drop-shadow(0 0 15px #ffdd00) drop-shadow(0 0 25px #ff9900); }
+        .shape svg { width: 100%; height: 100%; fill: none; stroke: #fff; stroke-width: 1.5px; stroke-linejoin: round; stroke-linecap: round; }
+        
+        /* أنيميشن الهواء */
+        @keyframes gentle-swing { 0% { transform: rotate(3deg); } 100% { transform: rotate(-3deg); } }
+
+        /* تغيير سرعات وزوايا كل خيط عشان يبان طبيعي */
+        .drop:nth-child(1) { height: 180px; animation-duration: 4.2s; }
+        .drop:nth-child(2) { height: 280px; animation-duration: 3.8s; }
+        .drop:nth-child(3) { height: 150px; animation-duration: 4.5s; }
+        .drop:nth-child(4) { height: 320px; animation-duration: 3.5s; }
+        .drop:nth-child(5) { height: 220px; animation-duration: 4.1s; }
+        .drop:nth-child(6) { height: 260px; animation-duration: 3.9s; }
+        .drop:nth-child(7) { height: 190px; animation-duration: 4.3s; }
+        .drop:nth-child(8) { height: 300px; animation-duration: 3.7s; }
+
+        @media (max-width: 768px) {
+            .drop:nth-child(odd) { display: none; } /* تقليل العدد في الموبايل */
+            .shape { width: 40px; height: 40px; bottom: -20px; }
         }
 
         /* Header */
@@ -94,7 +114,7 @@
         .timeline-item h4 { font-size: 1.1rem; color: var(--text-gray); margin-bottom: 15px; font-weight: 500; transition: color 0.5s; }
         .timeline-date { display: inline-block; background: var(--c-light-blue); color: var(--c-dark-red); padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; }
 
-        /* Contact Details Cards */
+        /* Contact Details */
         .contact-cards { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
         .c-card { background: var(--bg-white); padding: 30px; border-radius: 10px; width: 280px; text-align: center; box-shadow: 0 10px 30px var(--card-shadow); border-bottom: 4px solid var(--c-pink); transition: 0.3s; }
         .c-card i { font-size: 2.5rem; color: var(--c-dark-red); margin-bottom: 15px; }
@@ -116,13 +136,11 @@
         .popup-content h1 { font-size: 4rem; color: var(--c-pink); margin-bottom: 10px; font-weight: 900; line-height: 1; }
         .popup-content p { font-family: 'Cairo', sans-serif; color: var(--text-gray); font-size: 1.1rem; margin-bottom: 20px; }
         
-        /* Countdown Styles */
         .countdown { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; direction: rtl; }
         .time-box { background: var(--c-light-blue); color: var(--c-dark-red); padding: 10px; border-radius: 8px; min-width: 70px; }
         .time-box span { display: block; font-size: 1.8rem; font-weight: 900; line-height: 1; }
         .time-box small { font-family: 'Cairo', sans-serif; font-size: 0.8rem; font-weight: 700; }
         
-        /* Popup Buttons */
         .popup-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
         .popup-btn { flex: 1; min-width: 140px; color: white; border: none; padding: 12px 15px; font-family: 'Cairo', sans-serif; font-weight: bold; font-size: 1rem; cursor: pointer; border-radius: 4px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
         .btn-call { background-color: var(--c-dark-red); }
@@ -130,7 +148,6 @@
         .btn-wa { background-color: #25D366; }
         .btn-wa:hover { background-color: #128C7E; }
 
-        /* Scroll Animations */
         .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .animate-on-scroll.show { opacity: 1; transform: translateY(0); }
 
@@ -140,13 +157,47 @@
 </head>
 <body>
 
-    <div class="ramadan-decorations">
-        <div class="ornament" style="animation-duration: 3s;"><div class="string" style="height: 40px;"></div><i class="fas fa-star-and-crescent icon-glow"></i></div>
-        <div class="ornament" style="animation-duration: 3.5s;"><div class="string" style="height: 60px;"></div><i class="fas fa-lantern icon-glow"></i></div>
-        <div class="ornament" style="animation-duration: 2.8s;"><div class="string" style="height: 30px;"></div><i class="fas fa-star icon-glow"></i></div>
-        <div class="ornament" style="animation-duration: 4s;"><div class="string" style="height: 50px;"></div><i class="fas fa-moon icon-glow"></i></div>
-        <div class="ornament" style="animation-duration: 3.2s;"><div class="string" style="height: 45px;"></div><i class="fas fa-lantern icon-glow"></i></div>
-        <div class="ornament" style="animation-duration: 3.7s;"><div class="string" style="height: 35px;"></div><i class="fas fa-star-and-crescent icon-glow"></i></div>
+    <div class="light-curtain">
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 20%;"></div><div class="led" style="top: 60%;"></div>
+            <div class="shape star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 30%;"></div><div class="led" style="top: 70%;"></div>
+            <div class="shape moon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 40%;"></div>
+            <div class="shape star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 15%;"></div><div class="led" style="top: 50%;"></div><div class="led" style="top: 85%;"></div>
+            <div class="shape moon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 25%;"></div><div class="led" style="top: 65%;"></div>
+            <div class="shape star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 35%;"></div><div class="led" style="top: 75%;"></div>
+            <div class="shape moon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 50%;"></div>
+            <div class="shape star"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        </div>
+        <div class="drop">
+            <div class="wire"></div>
+            <div class="led" style="top: 20%;"></div><div class="led" style="top: 60%;"></div>
+            <div class="shape moon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+        </div>
     </div>
 
     <div class="popup-overlay" id="ramadanPopup">
@@ -294,41 +345,32 @@
     </section>
 
     <script>
-        // كود تفعيل الوضع الليلي أو النهاري حسب توقيت مصر أوتوماتيك
+        // التوقيت الأوتوماتيكي
         function setAutoTheme() {
-            // جلب التوقيت الحالي بتوقيت القاهرة
             const egyptTimeStr = new Date().toLocaleString("en-US", { timeZone: "Africa/Cairo" });
             const egyptDate = new Date(egyptTimeStr);
             const hour = egyptDate.getHours();
 
-            // لو الساعة من 6 المغرب (18) لحد 5 الفجر، فعل الدارك مود
             if (hour >= 18 || hour < 6) {
                 document.body.classList.add('dark-mode');
             } else {
                 document.body.classList.remove('dark-mode');
             }
         }
-        
-        // تشغيل الكود أول ما الصفحة تفتح
         setAutoTheme();
 
-        // إغلاق البوب-أب
         function closePopup() {
             const popup = document.getElementById('ramadanPopup');
             popup.style.opacity = '0';
             setTimeout(() => { popup.style.display = 'none'; }, 400);
         }
 
-        // كود العداد التنازلي لآخر رمضان
         const targetDate = new Date("March 19, 2026 23:59:59").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
             const distance = targetDate - now;
             
-            if (distance < 0) {
-                clearInterval(timer);
-                return;
-            }
+            if (distance < 0) { clearInterval(timer); return; }
             
             document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
             document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
@@ -336,18 +378,13 @@
             document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // كود الأنيميشن عند النزول (Scroll Animations)
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('show'); });
         }, { threshold: 0.1 });
-
-        document.querySelectorAll('.animate-on-scroll').forEach((el) => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
